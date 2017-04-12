@@ -1,12 +1,12 @@
 ---
 - name: Get deploy user group name
-  command: "id -g -n {{ ansible_user }}" 
+  command: "id -g -n {{ ansible_ssh_user }}" 
   register: deploy_user_group_name_register
   changed_when: false
 
 - name: Set deploy user name 
   set_fact: 
-    deploy_user_name: "{{ ansible_user }}"
+    deploy_user_name: "{{ ansible_ssh_user }}"
 
 - name: Set deploy user group name 
   set_fact: 
@@ -22,7 +22,7 @@
 
 - name: Create deploy/install dir 
   file: 
-    path: "{{ item.value.properties.install_dir }}/{{ansible_user}}"
+    path: "{{ item.value.properties.install_dir }}/{{ansible_ssh_user}}"
     state: directory 
     mode: 0755
     owner: "{{ deploy_user_name }}"
@@ -32,7 +32,7 @@
 - name: "Deploying files into server"
   copy: 
     src: "{{ item.value.properties.source_path }}"
-    dest: "{{ item.value.properties.install_dir }}/{{ansible_user}}"
+    dest: "{{ item.value.properties.install_dir }}/{{ansible_ssh_user}}"
     owner: "{{ deploy_user_name }}"
     group: "{{ deploy_group_name }}"
     mode: 0644 
