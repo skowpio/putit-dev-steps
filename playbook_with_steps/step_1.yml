@@ -1,0 +1,38 @@
+---
+- name: Deployment for tar.gz package 
+  hosts: all
+  roles:
+    - step1
+  vars: 
+    tc_deploy_work_dir: "{{ lookup('env', 'DEPLOY_WORK_DIR') }}"
+    tc_upload_dir: "{{ lookup('env', 'UPLOAD_DIR') }}"
+    tc_app_dir: "{{ lookup('env', 'APP_DIR') }}"
+    tc_app_current_version: "{{ lookup('env', 'APP_CURRENT_VERSION') }}"
+    tc_app_config_template_file: "{{ lookup('env', 'APP_CONFIG_TEMPLATE_FILE') }}"
+    tc_app_config_file: "{{ lookup('env', 'APP_CONFIG_FILE') }}"
+    tc_deploy_user: "{{ lookup('env', 'DEPLOY_USER') }}"
+    tc_git_hash: "{{ lookup('env', 'GIT_HASH') }}"
+    tc_prod_enable: "{{ lookup('env', 'PROD_ENABLE') }}"
+    tc_kiwi_db_name: "{{ lookup('env', 'KIWI_DEV_DB_NAME') }}"
+    tc_kiwi_db_user: "{{ lookup('env', 'KIWI_DEV_DB_USER') }}"
+    tc_kiwi_db_host: "{{ lookup('env', 'KIWI_DEV_DB_HOST') }}"
+    tc_kiwi_db_port: "{{ lookup('env', 'KIWI_DEV_DB_PORT') }}"
+    tc_kiwi_db_password: "{{ lookup('env', 'KIWI_DEV_DB_PASSWORD') }}"
+    tc_kiwi_cache_host: "{{ lookup('env', 'KIWI_CACHE_HOST') }}"
+    tc_kiwi_cache_port: "{{ lookup('env', 'KIWI_CACHE_PORT') }}"
+    #tc_kiwi_printer_files_dir: "{{ lookup('env', 'KIWI_PRINTER_FILES_DIR') }}"
+    #tc_kiwi_printer_printer_dir: "{{ lookup('env', 'KIWI_PRINTER_PRINTER_DIR') }}"
+    tc_kiwi_printer_public_dir: "{{ lookup('env', 'KIWI_PRINTER_PUBLIC_DIR') }}"
+    tc_kiwi_printer_tmp_dir: "{{ lookup('env', 'KIWI_PRINTER_TMP_DIR') }}"
+    tc_kiwi_printer_location: "{{ lookup('env', 'KIWI_PRINTER_LOCATION') }}"
+    tc_kiwi_printer_port: "{{ lookup('env', 'KIWI_PRINTER_PORT') }}"
+    tc_kiwi_scrive_url: "{{ lookup('env', 'SCRIVE_URL') }}"
+    tc_kiwi_jwt_key_base64: "{{ lookup('env', 'KIWI_JWT_KEY_BASE64_DEV') }}"
+
+    tc_kiwi_s3_endpoint: "{{ lookup('env', 'KIWI_S3_ENDPOINT') }}"
+    tc_kiwi_s3_bucket: "{{ lookup('env', 'KIWI_S3_DEV_BUCKET') }}"
+    tc_kiwi_s3_access_key: "{{ lookup('env', 'KIWI_S3_DEV_ACCESS_KEY') }}"
+    tc_kiwi_s3_secret_key: "{{ lookup('env', 'KIWI_S3_DEV_SECRET_KEY') }}"
+
+    ansible_user: "{{ lookup('env', 'DEPLOY_USER') }}"
+    
