@@ -10,7 +10,7 @@
 
 - name: Set deploy user group name 
   set_fact: 
-    deploygroup_name: "{{ deploy_user_group_name_register.stdout }}"
+    deploy_group_name: "{{ deploy_user_group_name_register.stdout }}"
 
 - name: Create upload dir 
   file: 
@@ -27,7 +27,7 @@
     mode: 0755
     owner: "{{ deploy_user_name }}"
     group: "{{ deploy_group_name }}"
-  with_dicts: 
+  with_dict: 
     - "{{ artifacts }}"
 
 - name: "Deploying files into server"
