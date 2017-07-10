@@ -1,12 +1,12 @@
 ---
 - name: Get deploy user group name
-  command: "id -g -n {{ ansible_user }}" 
+  command: "id -g -n {{ ansible_ssh_user }}" 
   register: deploy_user_group_name_register
   changed_when: false
 
 - name: Set deploy user name 
   set_fact: 
-    deploy_user_name: "{{ ansible_user }}"
+    deploy_user_name: "{{ ansible_ssh_user }}"
 
 - name: Set deploy user group name 
   set_fact: 
@@ -22,32 +22,31 @@
 
 - name: Create deploy/install dir 
   file: 
-    path: "{{ item.value.properties.install_dir }}"
+    path: "{{ item.value.properties.install_dir }}/{{ansible_ssh_user}}"
     state: directory 
     mode: 0755
     owner: "{{ deploy_user_name }}"
     group: "{{ deploy_group_name }}"
-  with_dict: 
-    - "{{ artifacts }}"
+  with_dict: "{{ artifacts }}"
 
 - name: "Deploying files into server"
   copy: 
     src: "{{ item.value.properties.source_path }}"
-    dest: "/tmp/uploaded_artifacts"
+    dest: "{{ item.value.properties.install_dir }}/{{ansible_ssh_user}}"
     owner: "{{ deploy_user_name }}"
     group: "{{ deploy_group_name }}"
     mode: 0644 
-  with_dict: 
-    - "{{ artifacts }}"
+  with_dict: "{{ artifacts }}"
 
 # get templates file from this step also test vars from this step - in file content var is in use
 - name: Create config file from template for all artifacts 
   template: 
     src: "templates/putit_test.conf.j2"
-    dest: "{{ item.value.properties.install_dir }}"
+    dest: "{{ item.value.properties.install_dir }}/putit_test.conf"
     owner: "{{ deploy_user_name  }}"
     group: "{{ deploy_group_name }}"
     mode: 0644
+  with_dict: "{{ artifacts }}"
 
 # get files file from this step !
 - name: Create file from files for all artifacts 
@@ -57,5 +56,6 @@
     owner: "{{ deploy_user_name  }}"
     group: "{{ deploy_group_name }}"
     mode: 0644
+  with_dict: "{{ artifacts }}"
 
 
