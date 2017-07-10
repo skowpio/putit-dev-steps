@@ -1,0 +1,10 @@
+---
+- set_fact:
+    putit_application: "{{ lookup('env', 'PUTIT_APPLICATION') }}"
+    putit_version: "{{ lookup('env', 'PUTIT_APPLICATION_VERSION') }}"
+    putit_env: "{{ lookup('env', 'PUTIT_ENV') }}"
+    putit_logs_url: "{{ lookup('env', 'PUTIT_RESULT_URL') }}/logs"
+
+- name: Debug message
+  debug:
+    msg: "Deploying application {{ putit_application }} with version {{ putit_version }} on environment {{ putit_env }}. Logs: {{ putit_logs_url }}"
