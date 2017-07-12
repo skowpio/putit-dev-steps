@@ -42,10 +42,24 @@
   unarchive:
     src: "{{ item.value.properties.install_dir }}/{{ item.value.properties.artifact_name }}"
     dest: "{{ item.value.properties.install_dir }}"
+    remote_src: true
   with_dict: "{{ artifacts }}"
 
 - name: "Stop app"
   shell: "{{ item.value.properties.install_dir }}/current/stop.sh"
+  with_dict: "{{ artifacts }}"
+
+- name: "Remove symlink"
+  file:
+   path: "{{ item.value.properties.install_dir }}/current"
+   state: absent
+  with_dict: "{{ artifacts }}"
+
+- name: 
+  file: 
+    src: "{{ item.value.properties.install_dir }}/{{ item.value.properties.artifact_version }}" 
+    dest: "{{ item.value.properties.install_dir }}/current"
+    state: link
   with_dict: "{{ artifacts }}"
 
 # get templates file from this step also test vars from this step - in file content var is in use
