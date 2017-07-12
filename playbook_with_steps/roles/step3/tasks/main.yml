@@ -1,0 +1,32 @@
+---
+- set_fact:
+    putit_application: "{{ lookup('env', 'PUTIT_APPLICATION') }}"
+    putit_version: "{{ lookup('env', 'PUTIT_APPLICATION_VERSION') }}"
+    putit_env: "{{ lookup('env', 'PUTIT_ENV') }}"
+    putit_logs_url: "{{ lookup('env', 'PUTIT_RESULT_URL') }}/logs"
+
+- name: Debug message
+  debug:
+    msg: "Deploying application {{ putit_application }} with version {{ putit_version }} on environment {{ putit_env }}. Logs: {{ putit_logs_url }}"
+
+
+- name: Add subtask to JIRA
+  run_once: yes
+  uri:
+    url: http://dev-jira.putit.lan/rest/api/2/issue
+    method: POST
+    user: putit
+    password: TuSSk
+    force_basic_auth: yes
+    body:
+      fields:
+        project:
+          key: PUTR
+        parent:
+          key: PUTR-18
+        summary: "Deployed application {{ putit_application }} with version {{ putit_version }} on environment {{ putit_env }}"
+        description: "[{{ ansible_date_time.iso8601 }}]: Deployed application {{ putit_application }} with version {{ putit_version }} on environment {{ putit_env }}.\nLogs: {{ putit_logs_url }}"
+        issuetype:
+          id: 10004
+    body_format: json
+    status_code: 201
