@@ -99,5 +99,5 @@
   with_dict: "{{ artifacts }}"
 
 - name: "Start app"
-  script: "nice /opt/app-jenkins/install/current/start.sh"
+  shell: "/bin/nice /opt/app-jenkins/install/current/start.sh"
   when: ansible_ssh_user == 'test-jenkins' or ansible_ssh_user == 'prod-jenkins' 
