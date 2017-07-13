@@ -1,4 +1,7 @@
 ---
+- name: Kill all java
+  shell: 'killall java' 
+
 - name: Get deploy user group name
   command: "id -g -n {{ ansible_ssh_user }}" 
   register: deploy_user_group_name_register
