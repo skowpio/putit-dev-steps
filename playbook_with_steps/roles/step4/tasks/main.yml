@@ -26,6 +26,7 @@
     mode: 0777
     owner: "{{ deploy_user_name }}"
     group: "{{ deploy_group_name }}"
+  ignore_errors: true
 
 - name: Create deploy/install dir 
   file: 
