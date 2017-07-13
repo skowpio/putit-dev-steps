@@ -48,6 +48,7 @@
 - name: "Stop app"
   shell: "{{ item.value.properties.install_dir }}/current/stop.sh"
   with_dict: "{{ artifacts }}"
+  ignore_errors: true
 
 - name: "Remove symlink"
   file:
@@ -57,7 +58,7 @@
 
 - name: "Create symlink"
   file: 
-    src: "{{ item.value.properties.install_dir }}/{{ item.value.properties.artifact_name }}-{{ item.value.properties.artifact_version }}" 
+    src: "{{ item.value.properties.install_dir }}/{{ item.value.properties.artifact_with_version }}"
     dest: "{{ item.value.properties.install_dir }}/current"
     state: link
   with_dict: "{{ artifacts }}"
