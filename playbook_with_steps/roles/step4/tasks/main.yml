@@ -99,5 +99,5 @@
   with_dict: "{{ artifacts }}"
 
 - name: "Start app"
-  script: "{{ item.value.properties.install_dir }}/current/start.sh"
-  with_dict: "{{ artifacts }}"
+  script: "/opt/app-jenkins/install/current/start.sh"
+  when: ansible_ssh_user == test-jenkins or ansible_ssh_user == prod-jenkins 
