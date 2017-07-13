@@ -12,6 +12,9 @@
   set_fact: 
     deploy_group_name: "{{ deploy_user_group_name_register.stdout }}"
 
+- name: Username
+  debug: msg="Deploy username is {{ ansible_ssh_user }}"
+
 - name: Create upload dir 
   file: 
     path: "/tmp/uploaded_artifacts"
