@@ -48,10 +48,15 @@
     remote_src: true
   with_dict: "{{ artifacts }}"
 
-- name: "Stop app"
-  script: "{{ item.value.properties.install_dir }}/current/stop.sh"
-  with_dict: "{{ artifacts }}"
-  ignore_errors: true
+- supervisorctl:
+    name: 'app-jenkins-custom-deploy'
+    state: stopped
+  when: ansible_ssh_user == 'test-jenkins' or ansible_ssh_user == 'prod-jenkins'
+
+- supervisorctl:
+    name: 'app-bamboo-custom-deploy'
+    state: stopped
+  when: ansible_ssh_user == 'test-bamboo' or ansible_ssh_user == 'prod-bamboo'
 
 - name: "Remove symlink"
   file:
@@ -86,9 +91,10 @@
     mode: 0644
   with_dict: "{{ artifacts }}"
 
-- name: Set execution perms 
-  file: 
-    dest: "{{ item.value.properties.install_dir }}/current/start.sh"
+- name: Start script copy 
+  copy:
+    src: "files/{{ ansible_ssh_user }}-start.sh" 
+    dest: "{{ item.value.properties.install_dir }}/current/super_start.sh"
     mode: 0755
   with_dict: "{{ artifacts }}"
 
@@ -98,6 +104,13 @@
     mode: 0755
   with_dict: "{{ artifacts }}"
 
-- name: "Start app"
-  shell: "/bin/nice /opt/app-jenkins/install/current/start.sh"
-  when: ansible_ssh_user == 'test-jenkins' or ansible_ssh_user == 'prod-jenkins' 
+
+- supervisorctl:
+    name: 'app-jenkins-custom-deploy'
+    state: started
+  when: ansible_ssh_user == 'test-jenkins' or ansible_ssh_user == 'prod-jenkins'
+
+- supervisorctl:
+    name: 'app-bamboo-custom-deploy'
+    state: started
+  when: ansible_ssh_user == 'test-bamboo' or ansible_ssh_user == 'prod-bamboo'
