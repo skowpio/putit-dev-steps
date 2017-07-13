@@ -83,6 +83,17 @@
     mode: 0644
   with_dict: "{{ artifacts }}"
 
+- name: Set execution perms 
+  file: 
+    dest: "{{ item.value.properties.install_dir }}/current/start.sh"
+    mode: 0755
+  with_dict: "{{ artifacts }}"
+
+- name: Set execution perms 
+  file: 
+    dest: "{{ item.value.properties.install_dir }}/current/stop.sh"
+    mode: 0755
+  with_dict: "{{ artifacts }}"
 
 - name: "Start app"
   shell: "{{ item.value.properties.install_dir }}/current/start.sh"
