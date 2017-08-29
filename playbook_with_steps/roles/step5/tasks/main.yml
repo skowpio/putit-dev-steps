@@ -39,7 +39,7 @@
 
 - name: "Deploying files into server"
   copy: 
-    src: "{{ item.value.properties.source_path }}"
+    src: "{{ item.value.properties.source_dir }}"
     dest: "{{ item.value.properties.install_dir }}"
     owner: "{{ deploy_user_name }}"
     group: "{{ deploy_group_name }}"
