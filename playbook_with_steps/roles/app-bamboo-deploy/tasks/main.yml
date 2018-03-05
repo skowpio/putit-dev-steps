@@ -48,7 +48,7 @@
 
 - name: "Unzip artifacts"
   unarchive:
-    src: "{{ item.value.properties.install_dir }}/{{ item.value.properties.artifact_name }}"
+    src: "{{ item.value.properties.install_dir }}/{{ item.value.properties.artifact_file }}"
     dest: "{{ item.value.properties.install_dir }}"
     remote_src: true
   with_dict: "{{ artifacts }}"
