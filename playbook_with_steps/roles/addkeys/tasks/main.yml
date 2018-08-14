@@ -1,0 +1,13 @@
+---
+- set_fact:
+    putit_application: "{{ lookup('env', 'PUTIT_APPLICATION') }}"
+    putit_version: "{{ lookup('env', 'PUTIT_APPLICATION_VERSION') }}"
+    putit_env: "{{ lookup('env', 'PUTIT_ENV') }}"
+    putit_logs_url: "{{ lookup('env', 'PUTIT_RESULT_URL') }}/logs"
+
+- name: Add SSH pub key from credential
+  authorized_key: 
+    user: "{{ putit_ansible_ssh_deploy_user }}"
+    key: "{{lookup('file', putit_ansible_ssh_deploy_public_key_file )}}" 
+    path: "/home/{{putit_ansible_ssh_deploy_user}}/.ssh/authorized_keys"
+  become: true
