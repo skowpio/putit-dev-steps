@@ -1,5 +1,0 @@
----
-- name: Deployment for artifacts 
-  hosts: all
-  roles:
-    - step1
