@@ -5,13 +5,13 @@
     putit_env: "{{ lookup('env', 'PUTIT_ENV') }}"
     putit_logs_url: "{{ lookup('env', 'PUTIT_RESULT_URL') }}/logs"
 
-- name: Add the user 'putit_staging' 
+- name: Add the deployment user set in application credential
   user:
     name: "{{ putit_ansible_ssh_deploy_user }}"
     comment: 'Putit test user'
   become: true
 
-- name: Add SSH pub key from credential
+- name: Add SSH pub key from credentials
   authorized_key: 
     user: "{{ putit_ansible_ssh_deploy_user }}"
     key: "{{lookup('file', putit_ansible_ssh_deploy_public_key_file )}}" 
